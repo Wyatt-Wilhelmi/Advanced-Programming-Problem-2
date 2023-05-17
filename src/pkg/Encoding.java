@@ -11,9 +11,9 @@ public class Encoding {
     private static ArrayList<ArrayList<Character>> inputCharacter;
     private static ArrayList<ArrayList<Integer>> asciiValue;
     private static ArrayList<ArrayList<Integer>> Token;
-    private static ArrayList<ArrayList<Integer>> Binary;
+    private static ArrayList<ArrayList<String>> Binary;
 
-    public Encoding(ArrayList<ArrayList<Character>> inputCharacter, ArrayList<ArrayList<Integer>> asciiValue, ArrayList<ArrayList<Integer>> token, ArrayList<ArrayList<Integer>> Binary){
+    public Encoding(ArrayList<ArrayList<Character>> inputCharacter, ArrayList<ArrayList<Integer>> asciiValue, ArrayList<ArrayList<Integer>> token, ArrayList<ArrayList<String>> Binary){
         Encoding.inputCharacter = inputCharacter;
         Encoding.asciiValue = asciiValue;
         Encoding.Token = token;
@@ -44,28 +44,33 @@ public class Encoding {
         Token = token;
     }
 
-    public ArrayList<ArrayList<Integer>> getBinary() {
+    public static ArrayList<ArrayList<String>> getBinary() {
         return Binary;
     }
 
-    public void setBinary(ArrayList<ArrayList<Integer>> binary) {
+    public static void setBinary(ArrayList<ArrayList<String>> binary) {
         Binary = binary;
     }
 
-    public static ArrayList<ArrayList<Integer>> EncodingData(ArrayList<ArrayList<Character>> arrayList){
+    public static ArrayList<ArrayList<String>> EncodingData(ArrayList<ArrayList<Character>> arrayList){
         setAsciiValue(AsciiConversion(arrayList));
+        setBinary(BinaryConversion(getAsciiValue()));
 
 
-
-        return getAsciiValue();
+        return getBinary();
     }
 
-    public static ArrayList<ArrayList<Integer>> BinaryConversion(ArrayList<ArrayList<Integer>> arrayList){
-        ArrayList<ArrayList<Integer>> conArray = new ArrayList<>();
+    public static ArrayList<ArrayList<String>> BinaryConversion(ArrayList<ArrayList<Integer>> arrayList){
+        ArrayList<ArrayList<String>> conArray = new ArrayList<>();
         for (ArrayList<Integer> s :arrayList) {
-            ArrayList<Integer> tempArray= new ArrayList<>();
+            ArrayList<String> tempArray= new ArrayList<>();
             for (int i :s) {
-                tempArray.add(i);
+                StringBuilder tempValue = new StringBuilder(Integer.toBinaryString(i));
+                tempValue.insert(tempValue.length(),0);
+                tempValue.insert(tempValue.length() - 1,0);
+                tempValue.insert(tempValue.length() - 1,0);
+                tempValue.insert(3,0);
+                tempArray.add(String.valueOf(tempValue));
             }
             conArray.add(tempArray);
         }
